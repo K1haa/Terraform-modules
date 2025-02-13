@@ -23,7 +23,6 @@ module "folder_and_rp" {
   # Data resource
   datacenter_data = "Datacenter name"
   cluster_data = "Cluster name"
-  datastore_data = "Datastore name"
 }
 
 module "vsphere_vm" {
