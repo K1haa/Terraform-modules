@@ -70,6 +70,16 @@ variable "dns_servers" {
   description = "DNS servers"
   type        = list(string)
 }
+variable "use_static_mac" {
+  description = "Use static mac"
+  type        = bool
+  default     = false
+}
+variable "mac_address" {
+  description = "Mac address vm"
+  type        = string
+  default     = null
+}
 variable "domain_admin_user" {
   description = "Domain user"
   type        = string
@@ -106,20 +116,20 @@ variable "product_key" {
 }
 variable "domain_linux" {
   description = "default VM domain for linux guest customization and fqdn name (if fqdnvmname is true)."
-  default     = "zherdev.local"
+  default     = "example.local"
 }
 variable "script_text" {
   description = "Текст кастомизационного скрипта для каждой VM. Пример: {\"node01\" = \"echo 'hello world'\"}"
   type        = map(string)
   default     = {}
 }
-#####################################
+# ####################################
 # Пример использования разных команд для линукс серверов без доступа к ним напрямую
-#script_text = {
+# script_text = {
 #    "ubuntu-app01" = "echo 'App 01 initialized'; apt-get update",
 #    "ubuntu-app02" = "echo 'App 02 initialized'; apt-get install -y nginx"
 #  }
-#####################################
+# ####################################
 variable "time_zone" {
   description = "Time zone"
   type        = number

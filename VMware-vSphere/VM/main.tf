@@ -16,21 +16,26 @@ resource "vsphere_virtual_machine" "VM" {
     path         = var.path_iso
   }
   disk {
-    label = "Hard Disk 1"
-    size  = var.disk_size
+    label            = "Hard Disk 1"
+    size             = var.disk_size
+    thin_provisioned = data.vsphere_virtual_machine.template.disks.0.thin_provisioned
   }
   network_interface {
-    network_id   = data.vsphere_network.network.id
-    adapter_type = "vmxnet3"
+    network_id     = data.vsphere_network.network.id
+    adapter_type   = "vmxnet3"
+    use_static_mac = var.use_static_mac
+    mac_address    = var.mac_address
   }
   clone {
     template_uuid = data.vsphere_virtual_machine.template.uuid
     customize {
       ipv4_gateway = var.ipv4_gateway
+
       network_interface {
         ipv4_address    = each.value
         ipv4_netmask    = var.ipv4_netmask
         dns_server_list = var.dns_servers
+
       }
       dynamic "linux_options" {
         for_each = var.is_windows_image ? [] : [1]
