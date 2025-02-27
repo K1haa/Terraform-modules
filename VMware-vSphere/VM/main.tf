@@ -18,7 +18,7 @@ resource "vsphere_virtual_machine" "VM" {
   disk {
     label            = "Hard Disk 1"
     size             = var.disk_size
-    thin_provisioned = data.vsphere_virtual_machine.template.disks.0.thin_provisioned
+    thin_provisioned = true
   }
   network_interface {
     network_id     = data.vsphere_network.network.id
