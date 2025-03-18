@@ -1,73 +1,49 @@
-# Terraform vSphere Virtual Machine Module
+# Terraform Modules for VMware vSphere and Cloud Director 🚀
 
-A Terraform module to create and manage vSphere Virtual Machines with customizable settings.
+Добро пожаловать в репозиторий с модулями Terraform для автоматизации инфраструктуры в VMware окружении!  
+Здесь вы найдете готовые решения для быстрого развертывания и управления ресурсами.
 
-## Features
+## 🧩 Доступные модули
 
-- Dynamic creation of multiple VMs
-- Customizable CPU, memory, and disk configurations
-- Windows and Linux OS customization
-- Conditional provisioning based on the operating system
+### 1. [VMware-vSphere/Виртуальные машины] https://github.com/K1haa/Terraform-modules/tree/main/VMware-vSphere/README.md
+Полный цикл развертывания ВМ:
+- Шаблонизация из каталога
+- Гибкая настройка ресурсов (CPU, RAM, диск)
+- Интеграция с Active Directory
+- Скриптовая инициализация ОС
 
-## Usage
+### 2. [VMware-VCD/Сети и NAT] https://github.com/K1haa/Terraform-modules/tree/main/VMware-VCD/networks-nsxv/README.md
+Автоматизация создания сетей, NAT-правил и фаервола:
+- Роутинг между сетями
+- Автоматический SNAT/DNAT
+- Динамическое управление портами
 
-### Example
+### 3. [VMware-VCD/Виртуальные машины] https://github.com/K1haa/Terraform-modules/tree/main/VMware-VCD/vm/README.md
+Полный цикл развертывания ВМ:
+- Шаблонизация из каталога
+- Гибкая настройка ресурсов (CPU, RAM, диск)
+- Интеграция с Active Directory
+- Скриптовая инициализация ОС
 
-```hcl
-# Create Resource Pool and Folder
 
-module "folder_and_rp" {
-  source                     = "git::https://github.com/K1haa/Terraform-modules.git//VMware-vSphere/rp_and_folder?ref=main"
-  vsphere_resource_pool_name = "Example-rp"
-  vsphere_folder_name        = "Example-folder"
-  # Data resource
-  datacenter_data = "Datacenter name"
-  cluster_data = "Cluster name"
-}
+# Уточнение
 
-module "vsphere_vm" {
-  source = "git::https://github.com/K1haa/Terraform-modules.git//VMware-vSphere/VM?ref=main"
-  # Data resource
-  datacenter_data = "Datacenter name"
-  cluster_data = "Cluster name"
-  datastore_data = "Datastore name"
-  # VM Names and IPs
-  vm_names = ["vm1", "vm2"]
-  vm_ips   = ["192.168.1.101", "192.168.1.102"]
+Данный репозиторий находится лишь на первом этапе разработки, используя данные модуля вы берете отвественность за вашу инфраструктуру на себя.
+Перед внедрением инфраструктуры как код - все тестируйте нескольно раз.
 
-  # Add to Resource Pool and Folder module: https://github.com/K1haa/Terraform-modules.git//VMware-vSphere/rp_and_folder
-  resource_pool_id = module.folder_and_rp.resource_pool_id
-  folder_path      = module.folder_and_rp.folder_path
+# 🤝 Участие в разработке
+Приветствуются Pull Request'ы! Перед внесением изменений:
 
-  # VM Configuration
-  num_cpus = 2
-  memory   = 4096
-  disk_size = 40
+1. Создайте Issue с описанием идеи
 
-  # Network Configuration
-  ipv4_gateway = "192.168.1.1"
-  ipv4_netmask = 24
-  dns_servers  = ["8.8.8.8", "8.8.4.4"]
+2. Форкните репозиторий
 
-  # OS Customization for Linux
-  is_windows_image = false
-  domain_linux     = "example.com"
-  hw_clock_utc     = false
-  time_zone        = 145 #("Europe/Moscow")
-  script_text      = "echo 'Hello, world!'"
-  
-  # OS Customization for Windows
-  is_windows_image      = true
-  domain_admin_user     = "Administrator@example.com"
-  domain_admin_password = "Admin10!"
-  join_domain           = "example.com"
-  domain_ou             = "DC=example, DC=com"
-  run_once_command_list = {
-    "ctx-sf01"       = ["powershell.exe -Command \"Start-Sleep -Seconds 30"]
-  }
-}
-```
+3. Создайте новую ветку: git checkout -b feature/awesome-feature
 
-## License
+4. Сделайте коммит изменений
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+5. Откройте Pull Request
+
+
+# Автор: Жердев Кирилл
+# Контакты: https://t.me/Kirill_Digital_2000 / https://t.me/K1ru_Haa
