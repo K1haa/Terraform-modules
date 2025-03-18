@@ -18,7 +18,7 @@
 - Автоматический SNAT/DNAT
 - Динамическое управление портами
 
-### 3. [VMware-VCD/Виртуальные машины] https://github.com/K1haa/Terraform-modules/tree/main/VMware-VCD/vm/README.md
+### 3. [VMware-VCD/Виртуальные машины] https://github.com/K1haa/Terraform-modules/blob/main/VMware-VCD/vm/README.MD
 Полный цикл развертывания ВМ:
 - Шаблонизация из каталога
 - Гибкая настройка ресурсов (CPU, RAM, диск)
