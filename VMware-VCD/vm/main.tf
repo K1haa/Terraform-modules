@@ -30,7 +30,7 @@ resource "vcd_vm" "vm" {
     allow_local_admin_password = true
     admin_password             = var.admin_password
     change_sid                 = var.os_type == "windows"
-    force                      = true
+    force                      = var.force_customization
     initscript                 = var.os_type == "linux" ? file(var.linux_init_script_path) : file(var.windows_init_script_path)
   }
 
@@ -59,3 +59,7 @@ resource "vcd_vm" "vm" {
     }
   }
 }
+
+
+
+

@@ -59,8 +59,8 @@ resource "vcd_nsxv_snat" "auto_snat" {
   for_each = { for net in var.networks : net.name => net }
 
   edge_gateway       = var.edge_gateway_name
-  network_name       = each.value.name
-  network_type       = "org"
+  network_name       = "ClientsExternalNetwork"
+  network_type       = "ext"
   original_address   = local.network_cidrs[each.value.name] # Используем вычисленный CIDR
   translated_address = var.external_ip
   depends_on         = [vcd_network_routed.network]
@@ -70,8 +70,8 @@ resource "vcd_nsxv_dnat" "port_forwarding" {
   for_each = { for idx, rule in var.dnat_rules : idx => rule }
 
   edge_gateway = var.edge_gateway_name
-  network_name = each.value.network_name
-  network_type = "org"
+  network_name = "ClientsExternalNetwork"
+  network_type = "ext"
   enabled      = true
   description  = "DNAT rule for ${each.value.internal_ip}:${each.value.internal_port}"
 

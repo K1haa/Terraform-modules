@@ -1,4 +1,3 @@
-# Основные параметры
 variable "vm_name" {
   description = "Базовое имя виртуальной машины"
   type        = string
@@ -15,7 +14,7 @@ variable "computer_name" {
   type        = string
 }
 
-# Параметры ОС
+
 variable "os_type" {
   description = "Тип ОС (linux/windows)"
   type        = string
@@ -37,7 +36,6 @@ variable "windows_init_script_path" {
   default     = ""
 }
 
-# Шаблоны и хранилище
 variable "catalog_org_name" {
   description = "Имя организации"
   type        = string
@@ -58,7 +56,7 @@ variable "storage_policies" {
   type        = string
 }
 
-# Сетевые настройки
+
 variable "network" {
   description = "Имя управляющей сети"
   type        = string
@@ -86,7 +84,7 @@ variable "static_ips" {
   }
 }
 
-# Домен Windows
+
 variable "join_domain" {
   description = "Присоединение к домену"
   type        = bool
@@ -118,7 +116,7 @@ variable "join_domain_account_ou" {
   default     = ""
 }
 
-# Ресурсы ВМ
+
 variable "memory" {
   description = "Объем памяти (MB)"
   type        = number
@@ -137,7 +135,7 @@ variable "disk_size_mb" {
   default     = 30720
 }
 
-# Безопасность
+
 variable "admin_password" {
   description = "Пароль администратора"
   type        = string
@@ -148,4 +146,10 @@ variable "number_of_auto_logons" {
   description = "Количество автовходов"
   type        = number
   default     = 1
+}
+
+variable "force_customization" {
+  type        = bool
+  description = "Принудительное выполнение кастомизации"
+  default     = false
 }
