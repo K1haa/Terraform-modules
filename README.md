@@ -5,7 +5,7 @@
 
 ## 🧩 Доступные модули
 
-### 1. [VMware-vSphere/Виртуальные машины] 
+### 1. VMware-vSphere/Виртуальные машины 
 #### https://github.com/K1haa/Terraform-modules/blob/main/VMware-vSphere/README.md
 Полный цикл развертывания ВМ:
 - Шаблонизация из каталога
@@ -13,7 +13,7 @@
 - Интеграция с Active Directory
 - Скриптовая инициализация ОС
 
-### 2. [VMware-VCD/Сети и NAT] 
+### 2. VMware-VCD/Сети и NAT 
 #### https://github.com/K1haa/Terraform-modules/blob/main/VMware-VCD/networks-nsxv/README.MD
 Автоматизация создания сетей, NAT-правил и фаервола:
 - Роутинг между сетями
@@ -52,4 +52,5 @@
 #### Автор: 
 Жердев Кирилл
 #### Контакты: 
-https://t.me/Kirill_Digital_2000 / https://t.me/K1ru_Haa
+https://t.me/Kirill_Digital_2000  
+https://t.me/K1ru_Haa
