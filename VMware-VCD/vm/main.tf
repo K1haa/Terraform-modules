@@ -11,7 +11,7 @@ resource "vcd_vm" "vm" {
   override_template_disk {
     bus_number      = 0
     unit_number     = 0
-    bus_type        = "paravirtual"
+    bus_type        = var.bus_type
     storage_profile = var.storage_policies
     size_in_mb      = var.disk_size_mb
   }
@@ -32,6 +32,7 @@ resource "vcd_vm" "vm" {
     change_sid                 = var.os_type == "windows"
     force                      = var.force_customization
     initscript                 = var.os_type == "linux" ? file(var.linux_init_script_path) : file(var.windows_init_script_path)
+    number_of_auto_logons      = var.number_of_auto_logons
   }
 
   power_on = true
@@ -56,6 +57,10 @@ resource "vcd_vm" "vm" {
     precondition {
       condition     = var.os_type != "windows" || var.windows_init_script_path != ""
       error_message = "Для Windows необходимо указать windows_init_script_path"
+    }
+    precondition {
+      condition     = contains(["ide", "paravirtual", "parallel", "sata", "nvme", "sas"], var.bus_type)
+      error_message = "Недопустимый тип шины: используйте ide, paravirtual, parallel, sata, nvme, sas"
     }
   }
 }

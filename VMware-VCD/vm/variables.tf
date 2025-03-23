@@ -153,3 +153,13 @@ variable "force_customization" {
   description = "Принудительное выполнение кастомизации"
   default     = false
 }
+
+variable "bus_type" {
+  description = "Тип шины диска"
+  type        = string
+  default     = "paravirtual"
+  validation {
+    condition     = contains(["parallel", "ide", "paravirtual", "parallel", "sata", "nvme", "sas"], var.bus_type)
+    error_message = "Допустимы: parallel, ide, paravirtual, parallel, sata, nvme, sas"
+  }
+}
