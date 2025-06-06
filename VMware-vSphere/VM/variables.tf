@@ -19,6 +19,7 @@ variable "folder_path" {
 variable "vm_password" {
   description = "Admin Pass VM"
   type        = string
+  default     = null
 }
 variable "vsphere_network_name" {
   description = "Network name connect to VM"
