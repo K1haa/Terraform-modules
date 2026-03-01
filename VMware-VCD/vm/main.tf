@@ -1,3 +1,11 @@
+locals {
+  normalized_os_type           = lower(trimspace(var.os_type))
+  normalized_ip_allocation     = upper(trimspace(var.ip_allocation_mode))
+  normalized_bus_type          = lower(trimspace(var.bus_type))
+  normalized_linux_script_path = trimspace(var.linux_init_script_path)
+  normalized_windows_script    = trimspace(var.windows_init_script_path)
+}
+
 resource "vcd_vm" "vm" {
   count                  = var.instance_count
   name                   = var.instance_count > 1 ? "${var.vm_name}-${format("%02d", count.index + 1)}" : var.vm_name
@@ -11,7 +19,7 @@ resource "vcd_vm" "vm" {
   override_template_disk {
     bus_number      = 0
     unit_number     = 0
-    bus_type        = var.bus_type
+    bus_type        = local.normalized_bus_type
     storage_profile = var.storage_policies
     size_in_mb      = var.disk_size_mb
   }
@@ -19,9 +27,9 @@ resource "vcd_vm" "vm" {
   network {
     type               = "org"
     name               = var.network
-    ip_allocation_mode = var.ip_allocation_mode
+    ip_allocation_mode = local.normalized_ip_allocation
     adapter_type       = "VMXNET3"
-    ip                 = var.ip_allocation_mode == "MANUAL" ? var.static_ips[count.index] : null
+    ip                 = local.normalized_ip_allocation == "MANUAL" ? var.static_ips[count.index] : null
   }
 
   customization {
@@ -29,9 +37,9 @@ resource "vcd_vm" "vm" {
     auto_generate_password     = false
     allow_local_admin_password = true
     admin_password             = var.admin_password
-    change_sid                 = var.os_type == "windows"
+    change_sid                 = local.normalized_os_type == "windows"
     force                      = var.force_customization
-    initscript                 = var.os_type == "linux" ? file(var.linux_init_script_path) : file(var.windows_init_script_path)
+    initscript                 = local.normalized_os_type == "linux" ? file(local.normalized_linux_script_path) : file(local.normalized_windows_script)
     number_of_auto_logons      = var.number_of_auto_logons
   }
 
@@ -40,26 +48,26 @@ resource "vcd_vm" "vm" {
   lifecycle {
 
     precondition {
-      condition     = var.ip_allocation_mode != "MANUAL" || length(var.static_ips) == var.instance_count
+      condition     = local.normalized_ip_allocation != "MANUAL" || length(var.static_ips) == var.instance_count
       error_message = "Количество статических IP должно совпадать с количеством инстансов"
     }
 
     precondition {
-      condition     = var.ip_allocation_mode != "MANUAL" || var.static_ips != null
+      condition     = local.normalized_ip_allocation != "MANUAL" || var.static_ips != null
       error_message = "Для MANUAL режима необходимо указать static_ips"
     }
 
     precondition {
-      condition     = var.os_type != "linux" || var.linux_init_script_path != ""
+      condition     = local.normalized_os_type != "linux" || local.normalized_linux_script_path != ""
       error_message = "Для Linux необходимо указать linux_init_script_path"
     }
 
     precondition {
-      condition     = var.os_type != "windows" || var.windows_init_script_path != ""
+      condition     = local.normalized_os_type != "windows" || local.normalized_windows_script != ""
       error_message = "Для Windows необходимо указать windows_init_script_path"
     }
     precondition {
-      condition     = contains(["ide", "paravirtual", "parallel", "sata", "nvme", "sas"], var.bus_type)
+      condition     = contains(["ide", "paravirtual", "parallel", "sata", "nvme", "sas"], local.normalized_bus_type)
       error_message = "Недопустимый тип шины: используйте ide, paravirtual, parallel, sata, nvme, sas"
     }
   }
